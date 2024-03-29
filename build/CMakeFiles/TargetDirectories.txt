@@ -1,0 +1,2 @@
+/home/lamb97/下载/src/build/CMakeFiles/edit_cache.dir
+/home/lamb97/下载/src/build/CMakeFiles/rebuild_cache.dir

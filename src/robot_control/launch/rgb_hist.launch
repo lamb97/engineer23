@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find robot_control)/launch/realsense_set.launch"/>
+
+    <node name="hist" pkg="robot_control" type="hist.py" respawn="true" output="screen" />
+
+    <node pkg="rviz" type="rviz" name="rviz"  args="-d $(find robot_control)/rviz/hist.rviz"/>
+</launch>

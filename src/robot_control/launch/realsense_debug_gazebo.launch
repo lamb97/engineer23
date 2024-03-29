@@ -1,0 +1,59 @@
+<launch>  
+    <!-- 加载机器人模型到参数空间 -->
+        <!-- 使用仿真时间，会导致rospy.Time.now()返回仿真的时间，不是世界时间 -->
+        <param name="/use_sim_time" value="true" />
+        <!-- robot_description + gazebo加载模型-->
+        <arg name="gazebo_gui" default="true" doc="Start Gazebo GUI"/>
+        <arg name="paused" default="false" doc="Start Gazebo paused"/>
+        <arg name="world_name" default="worlds/empty.world" doc="Gazebo world file"/>
+        <arg name="world_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" doc="Pose to spawn the robot at"/>
+        <arg name="initial_joint_positions" default=" -J car_fb2car_yaw 0 -J car_lr2car_fb 0 -J fb_move2roll_link 0 -J origin_global2car_lr 0 -J pitch_link2yaw_link 0 -J roll_link2pitch_link 0 -J ud_fixed2ud_move 0 -J ud_move2fb_move 0" doc="Initial joint configuration of the robot"/>
+        <include file="$(find gazebo_ros)/launch/empty_world.launch" pass_all_args="true">
+            <arg name="paused" value="true"/>
+        </include>
+        <param name="robot_description" textfile="$(find robot_moveit_config4)/config/gazebo_robot.urdf" />
+        <arg name="unpause" value="$(eval '' if arg('paused') else '-unpause')" /> <!-- unpause才可以加载出各坐标系？？？ -->
+        <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot $(arg unpause) $(arg world_pose) $(arg initial_joint_positions)"
+            respawn="false" output="screen" />
+        <!-- 加载机器人控制器ros_controller -->
+        <rosparam file="$(find robot_moveit_config4)/config/gazebo_controllers.yaml" />
+        <rosparam file="$(find robot_moveit_config4)/config/ros_controllers.yaml" command="load"/>
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="robot_controller "/><!--加载param中ns的控制器 -->
+        <node name="gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller" />
+        <!-- 坐标变换 -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+   
+    <!-- 打开moveit的action server,包括环境设置server -->
+        <include file="$(find robot_moveit_config4)/launch/move_group.launch">
+            <arg name="allow_trajectory_execution" value="true"/>
+            <arg name="moveit_controller_manager" value="ros_control" />
+            <arg name="fake_execution_type" value="interpolate"/>
+            <arg name="info" value="true"/>
+            <arg name="debug" value="false"/>
+            <arg name="pipeline" value="ompl"/>
+            <arg name="load_robot_description" value="false"/>
+        </include>
+
+    <!-- 进行路径规划 -->
+        <!-- realsense rgb,depth,点云信息   rgb,点云发布于camera_color_optical_frame -->
+            <include file="$(find robot_control)/launch/realsense_set.launch"/>
+        <!-- realsense与robot连接坐标变换 -->
+            <node pkg="tf2_ros" type="static_transform_publisher" name="static_transform_publisher_camera_realsense" args="0 0 0 0 0 0 /rgbd_camera /camera_link" />
+        <!-- 打开点云查询服务 -->
+            <node pkg="robot_control" type="get_pointcloud_3d_service" name="get_pointcloud_3d_service" />
+        <!-- 打开位姿获取，发布目标box_temp坐标系相对camera_link静态tf -->
+            <node pkg="robot_control" type="get_target_pose.py" name="get_target_pose"/>
+        <!-- 发布box坐标系相对world静态tf，以及在world中的pose -->
+            <node pkg="robot_control" type="get_target_world_pose_step1.py" name="get_target_world_pose_step1"/>
+            <node pkg="robot_control" type="get_target_world_pose_step2.py" name="get_target_world_pose_step2"/>
+        <!-- 打开环境建图，路径规划并执行仿真 -->
+            <node name="get_robot_path" pkg="robot_control" type="get_robot_path.py" respawn="false" output="screen"/>
+
+    <!-- 启动rviz -->
+            <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_control)/rviz/test.rviz"/>
+
+    <!-- 显示调试 -->
+            <node pkg="robot_control" type="lib_get_rgb_pos.py" name="lib_get_rgb_pos" />
+    
+    
+</launch>

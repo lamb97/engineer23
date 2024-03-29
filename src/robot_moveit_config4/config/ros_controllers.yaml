@@ -1,0 +1,54 @@
+robot_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - origin_global2car_lr
+    - car_lr2car_fb
+    - car_fb2car_yaw
+    - ud_fixed2ud_move
+    - ud_move2fb_move
+    - fb_move2roll_link
+    - roll_link2pitch_link
+    - pitch_link2yaw_link
+  gains:
+    origin_global2car_lr:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    car_lr2car_fb:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    car_fb2car_yaw:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    ud_fixed2ud_move:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    ud_move2fb_move:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    fb_move2roll_link:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    roll_link2pitch_link:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    pitch_link2yaw_link:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+  constraints:
+      stopped_velocity_tolerance: 0.0

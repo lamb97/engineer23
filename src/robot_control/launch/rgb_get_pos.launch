@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find robot_control)/launch/realsense_set.launch"/>
+
+    <node name="lib_get_rgb_pos" pkg="robot_control" type="lib_get_rgb_pos.py" respawn="true" output="screen" />
+
+    <node pkg="rviz" type="rviz" name="rviz"  args="-d $(find robot_control)/rviz/rgb_pos.rviz"/>   
+</launch>

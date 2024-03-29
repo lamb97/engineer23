@@ -1,0 +1,2 @@
+robot_control:robot_description5:robot_moveit_config4
+-DCATKIN_DEVEL_PREFIX=/home/lamb97/下载/src/devel -DCMAKE_INSTALL_PREFIX=/home/lamb97/下载/src/install -G Unix Makefiles

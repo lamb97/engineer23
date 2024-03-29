@@ -1,0 +1,15 @@
+controller_list:
+  - name: fake_robot_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - origin_global2car_lr
+      - car_lr2car_fb
+      - car_fb2car_yaw
+      - ud_fixed2ud_move
+      - ud_move2fb_move
+      - fb_move2roll_link
+      - roll_link2pitch_link
+      - pitch_link2yaw_link
+initial:  # Define initial robot poses per group
+  - group: robot
+    pose: start

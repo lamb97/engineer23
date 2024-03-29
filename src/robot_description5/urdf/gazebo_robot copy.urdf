@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="robot">
+    <link name="origin_global">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <link name="car_lr">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="origin_global2car_lr" type="prismatic">
+        <origin xyz="-0.044 0 0" rpy="0 0 0" />
+        <parent link="origin_global" />
+        <child link="car_lr" />
+        <axis xyz="0 1 0" />
+        <limit lower="-10" upper="10" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="car_fb">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="car_lr2car_fb" type="prismatic">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="car_lr" />
+        <child link="car_fb" />
+        <axis xyz="1 0 0" />
+        <limit lower="-10" upper="10" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="car_yaw">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="car_fb2car_yaw" type="continuous">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="car_fb" />
+        <child link="car_yaw" />
+        <axis xyz="0.0 0.0 -1.0" />
+        <limit lower="0" upper="0" effort="0" velocity="0" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0.021509 -1.2254E-10 -0.00040386" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0.0023256" ixy="-1.2261E-08" ixz="-9.0418E-13" iyy="0.0065804" iyz="1.2224E-13" izz="0.005007" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/base_link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.89804 0.91765 0.92941 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="car_yaw2base_link" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="car_yaw" />
+        <child link="base_link" />
+        <axis xyz="0 0 0" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="ud_fixed">
+        <inertial>
+            <origin xyz="-0.1611 -0.17 0.041823" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0.0082957" ixy="1.9272E-20" ixz="-1.3866E-08" iyy="0.0081079" iyz="1.3549E-18" izz="0.00023148" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/ud_fixed.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/ud_fixed.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="base_link2ud_fixed" type="fixed">
+        <origin xyz="0.1817 0.17 0.253" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="ud_fixed" />
+        <axis xyz="0 0 0" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="ud_move">
+        <inertial>
+            <origin xyz="-0.21827 -0.249 0.071024" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0.0023611" ixy="7.1456E-21" ixz="-1.3757E-20" iyy="0.0021234" iyz="-4.2205E-21" izz="0.0013657" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/ud_move.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/ud_move.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="ud_fixed2ud_move" type="prismatic">
+        <origin xyz="0.039 0.079 0.07" rpy="0 0 0" />
+        <parent link="ud_fixed" />
+        <child link="ud_move" />
+        <axis xyz="0 0 1" />
+        <limit lower="0" upper="0.3" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="fb_move">
+        <inertial>
+            <origin xyz="-0.16962 -0.185 -0.018823" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0.0005007" ixy="-1.1793E-14" ixz="-8.5853E-08" iyy="5.291E-05" iyz="5.0212E-15" izz="0.00050986" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/fb_move.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/fb_move.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="ud_move2fb_move" type="prismatic">
+        <origin xyz="-0.175 -0.064 0.192" rpy="0 0 0" />
+        <parent link="ud_move" />
+        <child link="fb_move" />
+        <axis xyz="1 0 0" />
+        <limit lower="0" upper="0.3" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="roll_link">
+        <inertial>
+            <origin xyz="-0.0079761 0.0020985 -0.0010533" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="8.5742E-05" ixy="-1.1174E-06" ixz="-1.6213E-06" iyy="3.7862E-05" iyz="1.3618E-06" izz="7.7028E-05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/roll_link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 0.80784 0.49804 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/roll_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="fb_move2roll_link" type="revolute">
+        <origin xyz="-0.109 -0.185 -0.0445" rpy="0 0 0" />
+        <parent link="fb_move" />
+        <child link="roll_link" />
+        <axis xyz="-1 0 0" />
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="pitch_Link">
+        <inertial>
+            <origin xyz="0.00023863 -0.0036836 -0.0060035" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="1.5065E-05" ixy="-1.7625E-08" ixz="-3.3721E-07" iyy="1.8379E-05" iyz="1.4059E-07" izz="2.1065E-05" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/pitch_Link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.79216 0.81961 0.93333 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/pitch_Link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="roll_link2pitch_link" type="revolute">
+        <origin xyz="0.035 -0.031956 0.0016682" rpy="0 0 0" />
+        <parent link="roll_link" />
+        <child link="pitch_Link" />
+        <axis xyz="0 -0.99864 0.05213" />
+        <limit lower="0" upper="3.14" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="yaw_Link">
+        <inertial>
+            <origin xyz="0.00010063 -0.00010565 -0.0020239" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="3.7305E-06" ixy="-9.4257E-09" ixz="-1.8056E-07" iyy="3.7314E-06" iyz="1.8957E-07" izz="7.3531E-06" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/yaw_Link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.77647 0.75686 0.73725 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/yaw_Link.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="pitch_link2yaw_link" type="revolute">
+        <origin xyz="0.00049592 0.031436 -0.011642" rpy="0 0 0" />
+        <parent link="pitch_Link" />
+        <child link="yaw_Link" />
+        <axis xyz="0.049592 -0.052066 -0.99741" />
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="3" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <link name="hand">
+        <inertial>
+            <origin xyz="-0.0019754 0.0022643 0.04645" rpy="0 0 0" />
+            <mass value="0.001" />
+            <inertia ixx="0.00041044" ixy="1.4842E-06" ixz="4.9661E-06" iyy="0.00041247" iyz="-5.0769E-06" izz="0.00031835" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/hand.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="1 1 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robot_description5/meshes/hand.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="yaw_link2hand" type="fixed">
+        <origin xyz="0.0053559 -0.0056232 -0.10772" rpy="0 0 0" />
+        <parent link="yaw_Link" />
+        <child link="hand" />
+        <axis xyz="0 0 0" />
+        <dynamics damping="0.1" friction="20"/>
+    </joint>
+    <transmission name="trans_origin_global2car_lr">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="origin_global2car_lr">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="origin_global2car_lr_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_car_lr2car_fb">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="car_lr2car_fb">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="car_lr2car_fb_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_car_fb2car_yaw">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="car_fb2car_yaw">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="car_fb2car_yaw_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_ud_fixed2ud_move">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="ud_fixed2ud_move">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="ud_fixed2ud_move_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_ud_move2fb_move">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="ud_move2fb_move">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="ud_move2fb_move_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_fb_move2roll_link">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="fb_move2roll_link">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="fb_move2roll_link_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_roll_link2pitch_link">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="roll_link2pitch_link">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="roll_link2pitch_link_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_pitch_link2yaw_link">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="pitch_link2yaw_link">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="pitch_link2yaw_link_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+
+
+    <link name="base_footprint"/>
+    <joint name="footprint2origin_global" type="fixed">
+        <parent link="base_footprint" />
+        <child link="origin_global" />
+        <origin rpy="0 0 0" xyz="0 0 0.1" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+    <!-- 加入世界坐标系，使其固定 -->
+    <link name="world"/>
+	<joint name="world2base_footprint" type="fixed">
+ 		 <parent link="world"/>
+		 <child link="base_footprint"/>
+	</joint>
+
+</robot>
+
